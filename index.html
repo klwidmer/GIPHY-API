@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+        <button data-search="cats">Funny Cat Gifs</button>
+        <button data-search="people">People</button>
+        <button data-search="toddlers">Toddlers</button>
+
+    <div class="container">
+        <div class="row">
+                <div class="col-6 col-md-4"></div>
+                <div class="col-6 col-md-4"></div>
+                <div class="col-6 col-md-4"></div>
+              </div>
+    </div>    
+            
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script type ="text/javascript">
+
+  $("button").on("click", function() {
+          var cats =$(this).data("search");
+          var people =$(this).data("search");
+          var toddlers =$(this).data("search");
+          
+var queryURL = "http://api.giphy.com/v1/gifs/search?q="+cats+"&api_key=P4zd4DpT3G8sVMwDCrmBEMrl1EjVGHk3&limit=10";
+var queryURL = "http://api.giphy.com/v1/gifs/search?q="+people+"&api_key=P4zd4DpT3G8sVMwDCrmBEMrl1EjVGHk3&limit=10";
+var queryURL = "http://api.giphy.com/v1/gifs/search?q="+toddlers+"&api_key=P4zd4DpT3G8sVMwDCrmBEMrl1EjVGHk3&limit=10";
+
+
+
+$.ajax({
+    url: queryURL,
+    method: "GET"})
+
+.done(function(response){
+  console.log(response.data);
+
+  for (var i = 0; i < response.data.length; i++){
+
+
+  $(".container").append("<img src='"+response.data[i].images.downsized. 
+        url+"'>");
+
+        
+
+
+        
+                        }
+                })
+        });
+
+
+
+</script>  
+</body>
+</html>
