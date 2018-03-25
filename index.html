@@ -1,81 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>GIPHY</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+                crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+                crossorigin="anonymous">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+                crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
+        <div>
+                <input type="search" id="mySearch" name="search">
+                <button data-search="searchButton">Add Topic</button>
+        </div>
 
-        <button data-search="cats">Funny Cat Gifs</button>
-        <button data-search="people">People</button>
-        <button data-search="toddlers" >Toddlers</button>
-        <input type="search" id="mySearch" name="search"><button data-search="searchButton">Search</button>
-        
-            
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-<script type ="text/javascript">
-
-
-
-  $("button").on("click", function() {
-          
-          var searchTerm =$(this).data("search");
-         if(searchTerm === "searchButton"){
-                 searchTerm = $("#mySearch").val().trim();
-         }
-
-var queryURL = "http://api.giphy.com/v1/gifs/search?q="+searchTerm+"&api_key=P4zd4DpT3G8sVMwDCrmBEMrl1EjVGHk3&limit=10";
+        <div class="imgButtons">
+                <button data-search="Mickey Mouse">Mickey Mouse</button>
+                <button data-search="Taz">Taz</button>
+                <button data-search="Frozen">Frozen</button>
+                <button data-search="Shrek">Shrek</button>
+                <button data-search="Lion King">Lion King</button>
+                <button data-search="Monsters Inc">Monsters Inc</button>
+                <button data-search="Wreck It Ralph">Wreck It Ralph</button>
+        </div>
 
 
 
-$.ajax({
-    url: queryURL,
-    method: "GET"})
 
-.done(function(response){
-  console.log(response.data);
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+                crossorigin="anonymous"></script>
+        <script type="text/javascript">
+                $("button").on("click", function () {
 
-  for (var i = 0; i < response.data.length; i++){
+                        var searchTerm = $(this).data("search");
+                        if (searchTerm === "searchButton") {
+                                searchTerm = $("#mySearch").val().trim();
+                                console.log("addbutton")
+                                $(".imgButtons").append('<button data-search="' + searchTerm + '">' + searchTerm + '</button>')
+                        }
 
+                        var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + searchTerm +
+                                "&api_key=P4zd4DpT3G8sVMwDCrmBEMrl1EjVGHk3&limit=10";
 
-        var div = $("<div class='imgDiv'>");
-        var img = $('<img>');
-        img.attr("data-animate", response.data[i].images.downsized.url)
-        img.attr("data-still", response.data[i].images.downsized_still.url)
-        img.attr("data-state", "still")
-        img.attr("src", response.data[i].images.downsized_still.url)
+                        $.ajax({
+                                        url: queryURL,
+                                        method: "GET"
+                                })
 
-        div.append(img);
+                                .done(function (response) {
+                                        console.log(response.data);
 
-
-         $('body').append(div);
-        
-
-}
-})
-
-  });
-
-  $(document).on("click", 'img', function(){
-        var state =  $(this).attr("data-state");
-        var animatedURL = $(this).attr("data-animate");
-        var stillURL = $(this).attr("data-still");
-        if( state === "still"){
-                $(this).attr("src", animatedURL);
-                $(this).attr("data-state", "animated");
-        } else {
-                $(this).attr("src", stillURL);
-                $(this).attr("data-state", "still");          
-        }
-  })
+                                        for (var i = 0; i < response.data.length; i++) {
 
 
+                                                var div = $('<div class="imgDiv col-md-4">');
+                                                var img = $('<img class = "imgSize">');
+                                                var rating = $("<p>Rating: </p>");
+                                                var ratingValue = response.data[i].rating;
 
-</script>  
+                                                img.attr("data-animate", response.data[i].images
+                                                        .downsized.url);
+                                                img.attr("data-still", response.data[i].images.downsized_still
+                                                        .url);
+                                                img.attr("data-state", "still")
+                                                img.attr("src", response.data[i].images.downsized_still
+                                                        .url);
+
+                                                $('body').append(div);
+                                                div.append(img);
+                                                div.append(rating);
+                                                rating.append(ratingValue);
+
+                                        }
+                                })
+
+                });
+
+                $(document).on("click", 'img', function () {
+                        var state = $(this).attr("data-state");
+                        var animatedURL = $(this).attr("data-animate");
+                        var stillURL = $(this).attr("data-still");
+                        if (state === "still") {
+                                $(this).attr("src", animatedURL);
+                                $(this).attr("data-state", "animated");
+                        } else {
+                                $(this).attr("src", stillURL);
+                                $(this).attr("data-state", "still");
+                        }
+                })
+        </script>
 </body>
+
 </html>

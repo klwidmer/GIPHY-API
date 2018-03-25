@@ -1,65 +1,75 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
 
-<head>
-  <meta charset="utf-8">
-  <title>Animal Buttons</title>
-</head>
+  <head>
 
-<body>
-  <button data-animal="cat">meow</button>
-  <button data-animal="dog">woof</button>
-  <button data-animal="bird">chirp</button>
-  <div id="gifs-appear-here">
-  </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script type="text/javascript">
-    // Adding click event listen listener to all buttons
-    $("button").on("click", function() {
-      // Grabbing and storing the data-animal property value from the button
-      var animal = $(this).attr("data-animal");
+    <meta charset="UTF-8">
+    <title>Click Button with Firebase!</title>
 
-      // Constructing a queryURL using the animal name
-      var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-        animal + "&api_key=dc6zaTOxFJmzC&limit=10";
+    <!-- -->
+    <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
 
-      // Performing an AJAX request with the queryURL
-      $.ajax({
-        url: queryURL,
-        method: "GET"
-      })
-        // After data comes back from the request
-        .then(function(response) {
-          console.log(queryURL);
+  </head>
 
-          console.log(response);
-          // storing the data from the AJAX request in the results variable
-          var results = response.data;
+  <body>
 
-          // Looping through each result item
-          for (var i = 0; i < results.length; i++) {
+    <!-- -->
+    <h1>Ouch! You've clicked me <span id="click-value"></span> times!</h1>
 
-            // Creating and storing a div tag
-            var animalDiv = $("<div>");
+    <!-- -->
+    <button id="click-button">Click Me!!!!</button>
 
-            // Creating a paragraph tag with the result item's rating
-            var p = $("<p>").text("Rating: " + results[i].rating);
+    <!-- -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-            // Creating and storing an image tag
-            var animalImage = $("<img>");
-            // Setting the src attribute of the image to a property pulled off the result item
-            animalImage.attr("src", results[i].images.fixed_height.url);
+  <!-- ================================================================================== -->
+    
 
-            // Appending the paragraph and image tag to the animalDiv
-            animalDiv.append(p);
-            animalDiv.append(animalImage);
+  <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBiSg-6B4bZuSQwU6ShjmRTXNkVS3QteWk",
+    authDomain: "kevinproject-7e0aa.firebaseapp.com",
+    databaseURL: "https://kevinproject-7e0aa.firebaseio.com",
+    projectId: "kevinproject-7e0aa",
+    storageBucket: "kevinproject-7e0aa.appspot.com",
+    messagingSenderId: "330563920823"
+  };
+  firebase.initializeApp(config);
 
-            // Prependng the animalDiv to the HTML page in the "#gifs-appear-here" div
-            $("#gifs-appear-here").prepend(animalDiv);
-          }
-        });
+
+    // VARIABLES
+    // --------------------------------------------------------------------------------
+
+    var database = firebase.database();
+    var clickCounter = 0;
+
+    // <!-- // FUNCTIONS + EVENTS
+//  Creating a click button to add clicks when button is clicked pulling from the firsebase database.  -->
+
+
+    $("#click-button").on("click", function() {
+      clickCounter++;
+      database.ref().set({
+        clickCount: clickCounter
+      });
     });
-  </script>
-</body>
+
+    // <!-- // MAIN PROCESS + INITIAL CODE
+    // // -------------------------------------------------------------------------------- -->
+
+    database.ref().on("value", function(snapshot) {
+      console.log(snapshot.val());
+      $("#click-value").text(snapshot.val().clickCount);
+      clickCounter = snapshot.val().clickCount;
+    }, function(errorObject) {
+      console.log("The read failed: " + errorObject.code);
+    });
+
+    </script>
+
+  </body>
 
 </html>
