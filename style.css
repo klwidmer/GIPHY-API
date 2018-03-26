@@ -10,6 +10,36 @@
     margin-right: 50px; */
 };
 
+.jumbotron {
+   background-color: aqua !important;
+}
+
+h1 {
+    font-family: 'Hanalei', cursive;
+    font-family: 'Londrina Sketch', cursive;
+    font-size: 15rem !important;
+
+}
+
+.lead {
+    font-style: italic;
+}
+
+.imgButtons {
+   margin-left: 2px;
+   margin-top: 5px;
+}
+
+.topic{
+    margin-left: 5px
+    
+}
+#mySearch{
+    margin-left: 5px
+    
+}
+
+
 
 
 /* // Small devices (landscape phones, 576px and up)
