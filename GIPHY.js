@@ -39,7 +39,7 @@ $.ajax({
                 for (var i = 0; i < response.data.length; i++) {
 
 
-                 var div = $('<div class="imgDiv col-md-4">');
+                var div = $('<div class="imgDiv col-md-4">');
                 var img = $('<img class = "imgSize">');
                 var rating = $("<p>Rating: </p>");
                 var ratingValue = response.data[i].rating;
