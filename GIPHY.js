@@ -25,7 +25,7 @@ function displayImg(){
 
 
 var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + searchTerm +
-                "&api_key=P4zd4DpT3G8sVMwDCrmBEMrl1EjVGHk3&" +
+                "&api_key=P4zd4DpT3G8sVMwDCrmBEMrl1EjVGHk3&limit=10&offset=" +
                 offSetVal;
 
 $.ajax({
